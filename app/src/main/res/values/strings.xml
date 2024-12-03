@@ -1,0 +1,69 @@
+<resources>
+    <string name="app_name" translatable="false">Factum</string>
+
+    <string name="choose_favorite_categories">Выберите любимые категории…</string>
+    <string name="ready">ГОТОВО</string>
+    <string name="read">Читается за</string>
+    <string name="minute">мин.</string>
+    <string name="connection_lost">Соединение потеряно. Показать сохраненные данные?</string>
+    <string name="show">Показать</string>
+    <string name="home">Главная</string>
+    <string name="categories">Категории</string>
+    <string name="favorite">Избранное</string>
+    <string name="settings">Настройки</string>
+    <string name="no_app_to_send_email">Нет приложения для отправки электронного письма</string>
+    <string name="choose_app_to_send_email">Выберите приложение для электронного письма</string>
+    <string name="report">Репорт</string>
+    <string name="personalization">Персонализация</string>
+    <string name="other">Другое</string>
+
+    <string-array name="categories">
+        <item>Кино</item>
+        <item>Кпоп</item>
+        <item>Здоровье</item>
+        <item>Психология</item>
+        <item>Еда</item>
+        <item>Космос</item>
+        <item>Наука</item>
+        <item>История</item>
+        <item>Искусство</item>
+        <item>Природа</item>
+    </string-array>
+
+    <string-array name="category_items" translatable="false">
+        <item>movie</item>
+        <item>kpop</item>
+        <item>health</item>
+        <item>psychology</item>
+        <item>food</item>
+        <item>space</item>
+        <item>science</item>
+        <item>history</item>
+        <item>art</item>
+        <item>nature</item>
+    </string-array>
+
+    <string-array name="settings_personalization">
+        <item>Уведомления</item>
+        <item>Любимые категории</item>
+    </string-array>
+
+    <string-array name="settings_other">
+        <item>Связаться с нами</item>
+        <item>Оценить приложение</item>
+    </string-array>
+
+    <string name="shared_pref_main" translatable="false">
+        com.sean.factum.di.shared_pref_main
+    </string>
+    <string name="shared_pref_main_launch" translatable="false">
+        main.launch
+    </string>
+    <string
+        name="shared_pref_main_categories" translatable="false">
+        main.categories
+    </string>
+    <string name="shared_pref_main_notifications" translatable="false">
+        main.notifications
+    </string>
+</resources>
