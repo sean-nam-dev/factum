@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "169828434080",
+    "project_id": "factum-2c3ae",
+    "storage_bucket": "factum-2c3ae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:169828434080:android:dfeb33857a36e5820289c5",
+        "android_client_info": {
+          "package_name": "com.devflow.factum"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0nPCHF0xNvPShBJvIGu2NIROfyGTWLF4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

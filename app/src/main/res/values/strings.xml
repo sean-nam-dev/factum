@@ -16,6 +16,7 @@
     <string name="report">Репорт</string>
     <string name="personalization">Персонализация</string>
     <string name="other">Другое</string>
+    <string name="daily_facts">Ежедневные факты</string>
 
     <string-array name="categories">
         <item>Кино</item>

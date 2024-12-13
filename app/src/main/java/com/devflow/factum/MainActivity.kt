@@ -1,12 +1,16 @@
 package com.devflow.factum
 
 import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -24,18 +28,24 @@ import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ReportFragment.Companion.reportFragment
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
 import com.devflow.factum.navigation.Destination
 import com.devflow.factum.navigation.NavigationAction
@@ -60,6 +70,7 @@ import com.devflow.factum.presentation.screen.settings.SettingsUIScreen
 import com.devflow.factum.presentation.screen.settings.SettingsViewModel
 import com.devflow.factum.presentation.screen.start.StartUIScreen
 import com.devflow.factum.ui.theme.FactumTheme
+import com.devflow.factum.util.Temp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -73,7 +84,6 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var navigator: Navigator
 
-    @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -245,19 +255,52 @@ class MainActivity : ComponentActivity() {
                                         hiltViewModel()
                                     }
 
-                                val context = this@MainActivity
-                                val postNotificationPermission = rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
-                                val notificationHandler = NotificationHandler(context)
-
-                                LaunchedEffect(key1 = true) {
-                                    if (!postNotificationPermission.status.isGranted) postNotificationPermission.launchPermissionRequest()
+                                val context = LocalContext.current
+                                var hasPermission by remember {
+                                    mutableStateOf(
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                            ContextCompat.checkSelfPermission(
+                                                context,
+                                                Manifest.permission.POST_NOTIFICATIONS
+                                            ) == PackageManager.PERMISSION_GRANTED
+                                        } else true
+                                    )
                                 }
 
-                                Column {
-                                    Button(onClick = { notificationHandler.showSimpleNotification() }) {
-                                        Text(text = "Simple notification trigger")
+                                val permissionLauncher = rememberLauncherForActivityResult(
+                                    contract = ActivityResultContracts.RequestPermission()
+                                ) { isGranted ->
+                                    hasPermission = isGranted
+                                }
+
+                                Box(
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    if (!hasPermission && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                        Button(onClick = {
+                                            permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                                        }) {
+                                            Text(text = "Request permission")
+                                        }
+                                    } else {
+                                        Text(text = "Home Screen")
                                     }
                                 }
+
+//                                val context = this@MainActivity
+//                                val postNotificationPermission = rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
+//                                val notificationHandler = NotificationHandler(context)
+//
+//                                LaunchedEffect(key1 = true) {
+//                                    if (!postNotificationPermission.status.isGranted) postNotificationPermission.launchPermissionRequest()
+//                                }
+//
+//                                Column {
+//                                    Button(onClick = { notificationHandler.showSimpleNotification() }) {
+//                                        Text(text = "Simple notification trigger")
+//                                    }
+//                                }
                             }
                             composable<Destination.FavoriteCategoriesScreen> {
                                 val viewModel: SettingsViewModel =
@@ -270,6 +313,22 @@ class MainActivity : ComponentActivity() {
                                 FavoriteCategoriesUIScreen(
                                     viewModel = viewModel
                                 )
+                            }
+                            composable<Destination.DeepLinkScreen>(
+                                deepLinks = listOf(
+                                    navDeepLink<Destination.DeepLinkScreen>(
+                                        basePath = this@MainActivity.resources.getString(R.string.deeplink_domain)
+                                    )
+                                )
+                            ) {
+                                val id = it.toRoute<Destination.DeepLinkScreen>().index
+
+                                Box(
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(text = "The id is $id")
+                                }
                             }
                         }
                     }

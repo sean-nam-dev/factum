@@ -60,6 +60,8 @@ android {
 dependencies {
     //    implementation("com.google.android.gms:play-services:17.0.0")
 
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
+
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
     implementation("com.google.accompanist:accompanist-permissions:0.31.1-alpha")
 
