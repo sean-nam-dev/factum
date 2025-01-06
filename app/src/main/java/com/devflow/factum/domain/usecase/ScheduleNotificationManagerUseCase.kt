@@ -5,23 +5,20 @@ import android.icu.util.Calendar
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.devflow.factum.NotificationWorker
+import com.devflow.factum.data.source.remote.NotificationWorker
+import com.devflow.factum.domain.model.Time
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class ScheduleNotificationUseCase @Inject constructor(
+class ScheduleNotificationManagerUseCase @Inject constructor(
     private val appContext: Application
 ) {
-    fun execute(
-        uniqueWorkName: String,
-        hour: Int,
-        minute: Int
-    ) {
+    fun execute(time: Time) {
         WorkManager.getInstance(appContext).enqueueUniquePeriodicWork(
-            uniqueWorkName,
-            ExistingPeriodicWorkPolicy.KEEP,
-            PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.DAYS)
-                .setInitialDelay(calculateDelay(hour, minute), TimeUnit.MILLISECONDS)
+            time.toString(),
+            ExistingPeriodicWorkPolicy.UPDATE,
+            PeriodicWorkRequestBuilder<NotificationWorker>(15, TimeUnit.MINUTES)
+                .setInitialDelay(calculateDelay(time.hour, time.minute), TimeUnit.MILLISECONDS)
                 .build()
         )
     }

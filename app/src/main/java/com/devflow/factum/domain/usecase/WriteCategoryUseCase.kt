@@ -12,7 +12,10 @@ class WriteCategoryUseCase @Inject constructor(
     suspend fun execute(data: Set<String>) {
         val name = appContext.getString(R.string.shared_pref_main_categories)
 
-        repository.write(name, data)
+        repository.write(
+            name = name,
+            data = data
+        )
     }
 }
 

@@ -1,12 +1,20 @@
 package com.devflow.factum.presentation.screen.settings
 
+import android.Manifest
+import android.app.Application
 import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devflow.factum.R
+import com.devflow.factum.domain.model.Time
 import com.devflow.factum.domain.usecase.ContactThroughMailUseCase
 import com.devflow.factum.domain.usecase.RateAppUseCase
 import com.devflow.factum.domain.usecase.ReadCategoryUseCase
+import com.devflow.factum.domain.usecase.ReadNotificationUseCase
+import com.devflow.factum.domain.usecase.ScheduleNotificationManagerUseCase
 import com.devflow.factum.domain.usecase.WriteCategoryUseCase
 import com.devflow.factum.navigation.Destination
 import com.devflow.factum.navigation.Navigator
@@ -26,14 +34,20 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val navigator: Navigator,
     private val resourceManager: ContextResourceManager,
+    private val appContext: Application,
     private val rateAppUseCase: RateAppUseCase,
     private val readCategoryUseCase: ReadCategoryUseCase,
     private val writeCategoryUseCase: WriteCategoryUseCase,
     private val contactThroughMailUseCase: ContactThroughMailUseCase,
+    private val scheduleNotificationManagerUseCase: ScheduleNotificationManagerUseCase,
+    private val readNotificationUseCase: ReadNotificationUseCase
 ): ViewModel() {
     private val _state = MutableStateFlow(SettingsUIState())
     val state = _state
-        .onStart { loadCategories() }
+        .onStart {
+            preLoadData()
+            checkPermission()
+        }
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000L),
@@ -58,12 +72,33 @@ class SettingsViewModel @Inject constructor(
                 }
             }
             is SettingsUIAction.OnCategoryStateChange -> categoryStateChange(action.category)
+            is SettingsUIAction.OnCheckPermission -> checkPermission()
+            is SettingsUIAction.OnScheduleNotification -> TODO()
+            is SettingsUIAction.OnAddNewTimeSlot -> TODO()
+            is SettingsUIAction.OnTimeDialogConfirmRequest -> TODO()
+            is SettingsUIAction.OnTimeDialogDismissRequest -> TODO()
         }
     }
 
-    private fun loadCategories() {
-        viewModelScope.launch {
-            _state.update { it.copy(categorySet = readCategoryUseCase.execute()) }
+    private suspend fun preLoadData() {
+        _state.update {
+            it.copy(
+                categorySet = readCategoryUseCase.execute(),
+                timeList = readNotificationUseCase.execute()
+            )
+        }
+    }
+
+    private fun checkPermission() {
+        _state.update {
+            it.copy(
+                hasNotificationPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    ContextCompat.checkSelfPermission(
+                        appContext,
+                        Manifest.permission.POST_NOTIFICATIONS
+                    ) == PackageManager.PERMISSION_GRANTED
+                } else true
+            )
         }
     }
 

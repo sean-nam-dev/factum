@@ -1,11 +1,17 @@
 package com.devflow.factum.di
 
+import android.annotation.SuppressLint
 import android.app.Application
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.speech.tts.TextToSpeech
+import android.util.Log
+import androidx.compose.ui.graphics.Color
+import androidx.hilt.work.WorkerAssistedFactory
 import androidx.room.Room
+import androidx.work.ListenableWorker
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.devflow.factum.R
@@ -13,19 +19,28 @@ import com.devflow.factum.data.source.local.dao.FactDao
 import com.devflow.factum.data.source.local.dao.ReadFactDao
 import com.devflow.factum.data.source.local.database.FactDatabase
 import com.devflow.factum.data.source.local.database.ReadFactDatabase
+import com.devflow.factum.data.source.remote.NotificationWorker_AssistedFactory
 import com.devflow.factum.navigation.DefaultNavigator
 import com.devflow.factum.navigation.Destination
 import com.devflow.factum.navigation.Navigator
 import com.devflow.factum.util.ContextResourceManager
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.IntoMap
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Provides
+    @Singleton
+    fun provideContextResourceManager(
+        appContext: Application
+    ): ContextResourceManager = ContextResourceManager(appContext)
 
     @Provides
     @Singleton
@@ -75,13 +90,14 @@ object AppModule {
     @Singleton
     fun provideTextToSpeech(appContext: Application): TextToSpeech =
         TextToSpeech(appContext, null)
+
     @Provides
     @Singleton
     fun provideNavigator(
-        appContext: Application,
+        contextResourceManager: ContextResourceManager,
         mainSharedPreferences: SharedPreferences
     ): Navigator {
-        val name = appContext.getString(R.string.shared_pref_main_launch)
+        val name = contextResourceManager.getString(R.string.shared_pref_main_launch)
         val isFirstLaunch = mainSharedPreferences.getBoolean(name, true)
 
         return DefaultNavigator(
@@ -95,13 +111,32 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideContextResourceManager(
-        appContext: Application
-    ): ContextResourceManager = ContextResourceManager(appContext)
+    fun provideDailyNotificationChannel(
+        contextResourceManager: ContextResourceManager
+    ): NotificationChannel {
+        val id = "1000"
+        val name = contextResourceManager.getString(R.string.daily_facts)
+        val description = contextResourceManager.getString(R.string.notifications_of_daily_facts)
+
+        val channel = NotificationChannel(
+            id,
+            name,
+            NotificationManager.IMPORTANCE_HIGH
+        ).apply {
+            setDescription(description)
+            enableVibration(true)
+            vibrationPattern = longArrayOf(0, 200, 100, 300)
+        }
+
+        return channel
+    }
 
     @Provides
     @Singleton
     fun provideNotificationManager(
-        appContext: Application
-    ): NotificationManager = appContext.getSystemService(NotificationManager::class.java)
+        appContext: Application,
+        dailyNotificationChannel: NotificationChannel
+    ): NotificationManager = appContext.getSystemService(NotificationManager::class.java).apply {
+        createNotificationChannel(dailyNotificationChannel)
+    }
 }

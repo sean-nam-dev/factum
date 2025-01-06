@@ -7,6 +7,7 @@ val White99 = Color(0xFFFEFEFE)
 val Lilac41 = Color(0xFFFC7AFE)
 val Green44 = Color(0xFF6EBAC6)
 val GrayBlue = Color(0xFFA1A9BC)
+val Gray = Color(0xFF1E2023)
 
 val Taupe = Color(0xFF8C6E63)
 val Charcoal = Color(0xFF2D2D2D)

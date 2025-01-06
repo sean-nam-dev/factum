@@ -17,6 +17,13 @@
     <string name="personalization">Персонализация</string>
     <string name="other">Другое</string>
     <string name="daily_facts">Ежедневные факты</string>
+    <string name="notifications_of_daily_facts">Уведомления о ежедневных фактах</string>
+    <string name="did_you_know">А вы знали?</string>
+    <string name="notifications">Уведомления</string>
+    <string name="request_permission">Запросить разрешение</string>
+    <string name="cancel">Отменить</string>
+    <string name="save">Сохранить</string>
+    <string name="choose_time">Выберите время</string>
 
     <string-array name="categories">
         <item>Кино</item>

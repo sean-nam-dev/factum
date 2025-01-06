@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
@@ -15,6 +16,7 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -25,6 +27,8 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -66,6 +70,8 @@ import com.devflow.factum.presentation.screen.favorite_categories.FavoriteCatego
 import com.devflow.factum.presentation.screen.favorite_detail.FavoriteDetailUIScreen
 import com.devflow.factum.presentation.screen.home.HomeUIScreen
 import com.devflow.factum.presentation.screen.home.HomeViewModel
+import com.devflow.factum.presentation.screen.notification.NotificationUIScreen
+import com.devflow.factum.presentation.screen.settings.SettingsUIAction
 import com.devflow.factum.presentation.screen.settings.SettingsUIScreen
 import com.devflow.factum.presentation.screen.settings.SettingsViewModel
 import com.devflow.factum.presentation.screen.start.StartUIScreen
@@ -155,7 +161,9 @@ class MainActivity : ComponentActivity() {
                     NavHost(
                         navController = navController,
                         startDestination = navigator.startDestination,
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier
+                            .padding(innerPadding)
+//                            .consumeWindowInsets(innerPadding)
                     ) {
                         navigation<Destination.StartGraph>(
                             startDestination = Destination.StartScreen
@@ -255,52 +263,7 @@ class MainActivity : ComponentActivity() {
                                         hiltViewModel()
                                     }
 
-                                val context = LocalContext.current
-                                var hasPermission by remember {
-                                    mutableStateOf(
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                            ContextCompat.checkSelfPermission(
-                                                context,
-                                                Manifest.permission.POST_NOTIFICATIONS
-                                            ) == PackageManager.PERMISSION_GRANTED
-                                        } else true
-                                    )
-                                }
-
-                                val permissionLauncher = rememberLauncherForActivityResult(
-                                    contract = ActivityResultContracts.RequestPermission()
-                                ) { isGranted ->
-                                    hasPermission = isGranted
-                                }
-
-                                Box(
-                                    modifier = Modifier.fillMaxSize(),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    if (!hasPermission && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                        Button(onClick = {
-                                            permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                                        }) {
-                                            Text(text = "Request permission")
-                                        }
-                                    } else {
-                                        Text(text = "Home Screen")
-                                    }
-                                }
-
-//                                val context = this@MainActivity
-//                                val postNotificationPermission = rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
-//                                val notificationHandler = NotificationHandler(context)
-//
-//                                LaunchedEffect(key1 = true) {
-//                                    if (!postNotificationPermission.status.isGranted) postNotificationPermission.launchPermissionRequest()
-//                                }
-//
-//                                Column {
-//                                    Button(onClick = { notificationHandler.showSimpleNotification() }) {
-//                                        Text(text = "Simple notification trigger")
-//                                    }
-//                                }
+                                NotificationUIScreen(viewModel = viewModel)
                             }
                             composable<Destination.FavoriteCategoriesScreen> {
                                 val viewModel: SettingsViewModel =
@@ -309,6 +272,7 @@ class MainActivity : ComponentActivity() {
                                     } else {
                                         hiltViewModel()
                                     }
+
 
                                 FavoriteCategoriesUIScreen(
                                     viewModel = viewModel
@@ -322,12 +286,13 @@ class MainActivity : ComponentActivity() {
                                 )
                             ) {
                                 val id = it.toRoute<Destination.DeepLinkScreen>().index
+                                val category = it.toRoute<Destination.DeepLinkScreen>().category
 
                                 Box(
                                     modifier = Modifier.fillMaxSize(),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    Text(text = "The id is $id")
+                                    Text(text = "The id is $id \n The category is $category")
                                 }
                             }
                         }

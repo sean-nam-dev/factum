@@ -60,7 +60,7 @@ android {
 dependencies {
     //    implementation("com.google.android.gms:play-services:17.0.0")
 
-    implementation("androidx.work:work-runtime-ktx:2.9.0")
+    implementation("androidx.work:work-runtime-ktx:2.8.0")
 
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
     implementation("com.google.accompanist:accompanist-permissions:0.31.1-alpha")
@@ -81,6 +81,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     implementation(libs.hilt.android)
+    implementation("androidx.hilt:hilt-work:1.2.0")
     kapt(libs.hilt.android.compiler)
 //    implementation(libs.androidx.hilt.lifecycle.viewmodel)
     kapt(libs.androidx.hilt.compiler)
