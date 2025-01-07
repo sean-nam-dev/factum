@@ -1,5 +1,6 @@
 package com.devflow.factum.presentation.component
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,29 +20,35 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.devflow.factum.R
 import com.devflow.factum.domain.model.Time
 import com.devflow.factum.ui.theme.FactumTheme
 import com.devflow.factum.util.Padding
 import com.devflow.factum.util.Size
+import com.devflow.factum.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimeItem(
     time: Time,
     enabled: Boolean,
-    confirmValueAction: () -> Unit,
+    deletionRequest: (Time) -> Unit,
     onCheckedChange: (Time) -> Unit
 ) {
     val state = rememberSwipeToDismissBoxState(
         confirmValueChange = {
-            confirmValueAction()
+            deletionRequest(time)
             false
         },
         positionalThreshold = {
@@ -66,7 +73,7 @@ fun TimeItem(
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_round_delete_24),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.background
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(modifier = Modifier.width(Padding.Standard))
             }
@@ -114,27 +121,49 @@ fun TimeItem(
 @Preview
 @Composable
 private fun TimeItemPreview() {
+    var isConfirmed by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+
+    LaunchedEffect(isConfirmed) {
+        Toast.makeText(context, "Test", Toast.LENGTH_SHORT).show()
+    }
+
     FactumTheme {
         Column(modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
             .padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(15.dp)) {
-            TimeItem(time = Time(
-                hour = 15,
-                minute = 59,
-                isActive = true
-            ), {},{})
-            TimeItem(time = Time(
-                hour = 3,
-                minute = 27,
-                isActive = false
-            ), {},{})
-            TimeItem(time = Time(
-                hour = 11,
-                minute = 34,
-                isActive = false
-            ), {},{})
+            TimeItem(
+                time = Time(
+                    hour = 15,
+                    minute = 59,
+                    isActive = true
+                ),
+                enabled = false,
+                onCheckedChange = {},
+                deletionRequest = { isConfirmed = !isConfirmed }
+            )
+            TimeItem(
+                time = Time(
+                    hour = 3,
+                    minute = 27,
+                    isActive = false
+                ),
+                enabled = true,
+                onCheckedChange = {},
+                deletionRequest = { isConfirmed = !isConfirmed }
+            )
+            TimeItem(
+                time = Time(
+                    hour = 11,
+                    minute = 34,
+                    isActive = true
+                ),
+                enabled = true,
+                onCheckedChange = {},
+                deletionRequest = { isConfirmed = !isConfirmed }
+            )
         }
     }
 }

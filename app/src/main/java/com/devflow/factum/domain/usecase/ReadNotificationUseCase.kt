@@ -10,7 +10,7 @@ class ReadNotificationUseCase @Inject constructor(
     private val repository: SharedPrefRepository,
     private val appContext: Application
 ) {
-    suspend fun execute(): List<Time> {
+    suspend fun execute(): Set<Time> {
         val name = appContext.getString(R.string.shared_pref_main_notifications)
 
         return repository.read(name, emptySet<String>()).map {
@@ -21,6 +21,6 @@ class ReadNotificationUseCase @Inject constructor(
                 minute = data[1].toInt(),
                 isActive = data[2].toBoolean()
             )
-        }
+        }.toSet()
     }
 }

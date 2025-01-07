@@ -24,6 +24,8 @@
     <string name="cancel">Отменить</string>
     <string name="save">Сохранить</string>
     <string name="choose_time">Выберите время</string>
+    <string name="delete">Удалить</string>
+    <string name="do_you_really_want_to_delete">Вы действительно хотите удалить?</string>
 
     <string-array name="categories">
         <item>Кино</item>

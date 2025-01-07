@@ -10,12 +10,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devflow.factum.R
 import com.devflow.factum.domain.model.Time
+import com.devflow.factum.domain.usecase.CancelNotificationManagerUseCase
+import com.devflow.factum.domain.usecase.ChangeNotificationActivenessUseCase
 import com.devflow.factum.domain.usecase.ContactThroughMailUseCase
+import com.devflow.factum.domain.usecase.DeleteNotificationUseCase
 import com.devflow.factum.domain.usecase.RateAppUseCase
 import com.devflow.factum.domain.usecase.ReadCategoryUseCase
 import com.devflow.factum.domain.usecase.ReadNotificationUseCase
 import com.devflow.factum.domain.usecase.ScheduleNotificationManagerUseCase
 import com.devflow.factum.domain.usecase.WriteCategoryUseCase
+import com.devflow.factum.domain.usecase.WriteNotificationUseCase
 import com.devflow.factum.navigation.Destination
 import com.devflow.factum.navigation.Navigator
 import com.devflow.factum.util.ContextResourceManager
@@ -40,7 +44,11 @@ class SettingsViewModel @Inject constructor(
     private val writeCategoryUseCase: WriteCategoryUseCase,
     private val contactThroughMailUseCase: ContactThroughMailUseCase,
     private val scheduleNotificationManagerUseCase: ScheduleNotificationManagerUseCase,
-    private val readNotificationUseCase: ReadNotificationUseCase
+    private val readNotificationUseCase: ReadNotificationUseCase,
+    private val writeNotificationUseCase: WriteNotificationUseCase,
+    private val changeNotificationActivenessUseCase: ChangeNotificationActivenessUseCase,
+    private val cancelNotificationManagerUseCase: CancelNotificationManagerUseCase,
+    private val deleteNotificationUseCase: DeleteNotificationUseCase
 ): ViewModel() {
     private val _state = MutableStateFlow(SettingsUIState())
     val state = _state
@@ -73,18 +81,95 @@ class SettingsViewModel @Inject constructor(
             }
             is SettingsUIAction.OnCategoryStateChange -> categoryStateChange(action.category)
             is SettingsUIAction.OnCheckPermission -> checkPermission()
-            is SettingsUIAction.OnScheduleNotification -> TODO()
-            is SettingsUIAction.OnAddNewTimeSlot -> TODO()
-            is SettingsUIAction.OnTimeDialogConfirmRequest -> TODO()
-            is SettingsUIAction.OnTimeDialogDismissRequest -> TODO()
+            is SettingsUIAction.OnAddNewTimeSlot -> addNewTimeSlot()
+            is SettingsUIAction.OnTimeDialogConfirmationRequest -> timeDialogConfirmationRequest(action.time)
+            is SettingsUIAction.OnTimeDialogDismissRequest -> timeDialogDismissRequest()
+            is SettingsUIAction.OnTimeItemDeletionRequest -> timeItemDeletionRequest(action.time)
+            is SettingsUIAction.OnTimeItemCheckedStateChange -> timeItemCheckedStateChange(action.time)
+            is SettingsUIAction.OnConfirmationDialogDismissRequest -> confirmationDialogDismissRequest()
+            is SettingsUIAction.OnConfirmationDialogConfirmationRequest -> confirmationDialogConfirmationRequest()
         }
+    }
+
+    private fun confirmationDialogConfirmationRequest() {
+        viewModelScope.launch {
+            cancelNotificationManagerUseCase.execute(state.value.pendingToDeleteTime!!)
+            deleteNotificationUseCase.execute(state.value.pendingToDeleteTime!!)
+
+            _state.update {
+                it.copy(
+                    timeSet = it.timeSet.minus(it.pendingToDeleteTime!!),
+                    isConfirmationDialogShown = false,
+                    pendingToDeleteTime = null
+                )
+            }
+        }
+    }
+
+    private fun confirmationDialogDismissRequest() {
+        _state.update {
+            it.copy(
+                isConfirmationDialogShown = false,
+                pendingToDeleteTime = null
+            )
+        }
+    }
+
+    private fun timeItemCheckedStateChange(time: Time) {
+        viewModelScope.launch {
+            val newStateValue = !time.isActive
+            val updatedSet = _state.value.timeSet
+                .map { if (it == time) it.copy(isActive = newStateValue) else it }
+                .toSet()
+
+            _state.update { it.copy(timeSet = updatedSet) }
+
+            changeNotificationActivenessUseCase.execute(time)
+
+            if (newStateValue) {
+                scheduleNotificationManagerUseCase.execute(time)
+            } else {
+                cancelNotificationManagerUseCase.execute(time)
+            }
+        }
+    }
+
+    private fun timeItemDeletionRequest(time: Time) {
+        _state.update {
+            it.copy(
+                isConfirmationDialogShown = true,
+                pendingToDeleteTime = time
+            )
+        }
+    }
+
+    private fun timeDialogDismissRequest() {
+        _state.update { it.copy(isTimeDialogShown = false) }
+    }
+
+    private fun timeDialogConfirmationRequest(time: Time) {
+        viewModelScope.launch {
+            writeNotificationUseCase.execute(time)
+            scheduleNotificationManagerUseCase.execute(time)
+
+            _state.update {
+                it.copy(
+                    timeSet = it.timeSet.plus(time),
+                    isTimeDialogShown = false
+                )
+            }
+        }
+    }
+
+    private fun addNewTimeSlot() {
+        _state.update { it.copy(isTimeDialogShown = true) }
     }
 
     private suspend fun preLoadData() {
         _state.update {
             it.copy(
                 categorySet = readCategoryUseCase.execute(),
-                timeList = readNotificationUseCase.execute()
+                timeSet = readNotificationUseCase.execute()
             )
         }
     }

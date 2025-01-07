@@ -29,7 +29,6 @@ fun FavoriteDetailUIScreen(
         viewModel.toastMessage.collectLatest { message ->
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }
-
     }
 
     FavoriteDetailUI(

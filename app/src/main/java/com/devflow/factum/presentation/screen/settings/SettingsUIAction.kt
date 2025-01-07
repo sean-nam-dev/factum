@@ -10,12 +10,12 @@ sealed class SettingsUIAction {
         val index: Int,
         val context: Context,
     ): SettingsUIAction()
-    data class OnScheduleNotification(
-        val hour: Int,
-        val minute: Int
-    ): SettingsUIAction()
     data object OnCheckPermission: SettingsUIAction()
     data object OnAddNewTimeSlot: SettingsUIAction()
     data object OnTimeDialogDismissRequest: SettingsUIAction()
-    data class OnTimeDialogConfirmRequest(val time: Time): SettingsUIAction()
+    data class OnTimeDialogConfirmationRequest(val time: Time): SettingsUIAction()
+    data class OnTimeItemDeletionRequest(val time: Time): SettingsUIAction()
+    data class OnTimeItemCheckedStateChange(val time: Time): SettingsUIAction()
+    data object OnConfirmationDialogDismissRequest: SettingsUIAction()
+    data object OnConfirmationDialogConfirmationRequest: SettingsUIAction()
 }
