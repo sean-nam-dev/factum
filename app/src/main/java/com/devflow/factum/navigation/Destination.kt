@@ -81,7 +81,7 @@ sealed interface Destination {
 
     @Serializable
     data class DeepLinkScreen(
-        val index: String,
+        val id: String,
         val category: String
     ): Destination
 }

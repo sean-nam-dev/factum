@@ -63,6 +63,8 @@ import com.devflow.factum.presentation.screen.categories.CategoriesUIScreen
 import com.devflow.factum.presentation.screen.category.CategoryUIScreen
 import com.devflow.factum.presentation.screen.category.CategoryViewModel
 import com.devflow.factum.presentation.screen.category_detail.CategoryDetailUIScreen
+import com.devflow.factum.presentation.screen.deeplink.DeeplinkUIScreen
+import com.devflow.factum.presentation.screen.deeplink.DeeplinkViewModel
 import com.devflow.factum.presentation.screen.detail.DetailUIScreen
 import com.devflow.factum.presentation.screen.favorite.FavoriteUIScreen
 import com.devflow.factum.presentation.screen.favorite.FavoriteViewModel
@@ -273,7 +275,6 @@ class MainActivity : ComponentActivity() {
                                         hiltViewModel()
                                     }
 
-
                                 FavoriteCategoriesUIScreen(
                                     viewModel = viewModel
                                 )
@@ -285,15 +286,19 @@ class MainActivity : ComponentActivity() {
                                     )
                                 )
                             ) {
-                                val id = it.toRoute<Destination.DeepLinkScreen>().index
+                                val id = it.toRoute<Destination.DeepLinkScreen>().id
                                 val category = it.toRoute<Destination.DeepLinkScreen>().category
 
-                                Box(
-                                    modifier = Modifier.fillMaxSize(),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(text = "The id is $id \n The category is $category")
-                                }
+                                val viewModel: DeeplinkViewModel = hiltViewModel(
+                                    creationCallback = { factory: DeeplinkViewModel.DeeplinkViewModelFactory ->
+                                        factory.create(
+                                            id = id,
+                                            category = category
+                                        )
+                                    }
+                                )
+
+                                DeeplinkUIScreen(viewModel)
                             }
                         }
                     }

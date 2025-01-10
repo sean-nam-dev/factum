@@ -108,15 +108,13 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             if (_state.value.isFactExists) {
                 deleteFactUseCase.execute(fact)
-                _state.update { it.copy(isFactExists = false) }
             } else {
                 when(writeFactUseCase.execute(fact)) {
-                    is Result.Success -> {
-                        _state.update { it.copy(isFactExists = true) }
-                    }
+                    is Result.Success -> {}
                     is Result.Error -> {}
                 }
             }
+            _state.update { it.copy(isFactExists = !it.isFactExists) }
         }
     }
 

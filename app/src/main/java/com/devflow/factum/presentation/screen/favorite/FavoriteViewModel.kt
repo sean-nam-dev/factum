@@ -23,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FavoriteViewModel @Inject constructor(
     private val navigator: Navigator,
-    getAllFactUseCase: GetAllFactUseCase,
+    private val getAllFactUseCase: GetAllFactUseCase,
     private val deleteFactUseCase: DeleteFactUseCase,
     private val contactThroughMailUseCase: ContactThroughMailUseCase,
     private val resourceManager: ContextResourceManager

@@ -37,7 +37,7 @@ class DailyNotificationHelper @Inject constructor(
 
         if (fact != null) {
             val intent = Intent(appContext, MainActivity::class.java).apply {
-                data = "${appContext.getString(R.string.deeplink_domain)}/${fact.factBase.category}/${fact.factBase.documentId}".toUri()
+                data = "${appContext.getString(R.string.deeplink_domain)}/${fact.factBase.documentId}/${fact.factBase.category}".toUri()
             }
             val pendingIntent = TaskStackBuilder.create(appContext).run {
                 addNextIntentWithParentStack(intent)

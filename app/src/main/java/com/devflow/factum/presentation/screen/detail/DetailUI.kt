@@ -1,5 +1,7 @@
 package com.devflow.factum.presentation.screen.detail
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,8 +10,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -24,6 +29,8 @@ import com.devflow.factum.presentation.component.topbar.util.ProvideAppBarHeadli
 import com.devflow.factum.presentation.component.topbar.util.ProvideScrollBehavior
 import com.devflow.factum.presentation.screen.home.HomeUIAction
 import com.devflow.factum.util.Padding
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,13 +38,22 @@ fun DetailUI(
     fact: Fact,
     color: Color,
     isFavorite: Boolean,
-    scrollBehavior: TopAppBarScrollBehavior,
-    onAction: (HomeUIAction) -> Unit
+    toastTrigger: SharedFlow<String>,
+    reportAction: () -> Unit,
+    favoriteAction: () -> Unit
 ) {
-    val context = LocalContext.current
-
+    Log.d("CATEGORY_CHECK", ">>> ${fact.factBase.category} <<<")
     val headLineIndex = stringArrayResource(R.array.category_items).indexOf(fact.factBase.category)
     val headLine = stringArrayResource(R.array.categories)[headLineIndex]
+
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+    val context = LocalContext.current
+
+    LaunchedEffect(toastTrigger) {
+        toastTrigger.collectLatest { message ->
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        }
+    }
 
     ProvideScrollBehavior(scrollBehavior = scrollBehavior)
     ProvideAppBarHeadline(headline = "$headLine #${fact.factBase.documentId}")
@@ -47,17 +63,13 @@ fun DetailUI(
             AppBarActionItem(
                 iconId = R.drawable.ic_round_report_24,
                 color = MaterialTheme.colorScheme.error,
-                action = {
-                    onAction(HomeUIAction.OnReportAction(context, fact.factBase))
-                }
+                action = reportAction
             ),
             AppBarActionItem(
                 iconId = if (isFavorite) R.drawable.ic_round_favorite_24
                 else R.drawable.ic_outline_favorite_24,
                 color = MaterialTheme.colorScheme.primary,
-                action = {
-                    onAction(HomeUIAction.OnFavoriteAction(fact))
-                }
+                action = favoriteAction
             )
         )
     )

@@ -28,6 +28,7 @@ fun ContentAwareTopAppBar(
         "com.devflow.factum.navigation.Destination.DetailScreen/{index}/{localIndex}",
         "com.devflow.factum.navigation.Destination.CategoryDetailScreen/{index}/{localIndex}/{category}",
         "com.devflow.factum.navigation.Destination.FavoriteDetailScreen/{index}/{localIndex}",
+        "com.devflow.factum.navigation.Destination.DeepLinkScreen/{id}/{category}",
         "com.devflow.factum.navigation.Destination.CategoryScreen/{documentName}",
         "com.devflow.factum.navigation.Destination.FavoriteCategoriesScreen",
         "com.devflow.factum.navigation.Destination.NotificationScreen"

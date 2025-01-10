@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -129,25 +130,40 @@ private fun FactCardItemPreview() {
         val factColorList = VisualContent.getCardColors()
         val categoryList = stringArrayResource(R.array.category_items)
 
-
-        LazyColumn(
+        Box(
             modifier = Modifier.fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
                 .padding(Padding.Standard),
-            verticalArrangement = Arrangement.spacedBy(20.dp)
+            contentAlignment = Alignment.Center
         ) {
-            itemsIndexed(Temp.getFactList()) { index, fact ->
-                val localIndex = categoryList.indexOf(fact.factBase.category)
+            FactCardItem(
+                fact = Temp.getFact(),
+                icon = factIconList.first(),
+                color = factColorList.first(),
+                onClickAction = {
 
-                FactCardItem(
-                    fact = fact,
-                    icon = factIconList[localIndex],
-                    color = factColorList[localIndex],
-                    onClickAction = {
-
-                    }
-                )
-            }
+                }
+            )
         }
+
+//        LazyColumn(
+//            modifier = Modifier.fillMaxSize()
+//                .background(MaterialTheme.colorScheme.background)
+//                .padding(Padding.Standard),
+//            verticalArrangement = Arrangement.spacedBy(20.dp)
+//        ) {
+//            itemsIndexed(Temp.getFactList()) { index, fact ->
+//                val localIndex = categoryList.indexOf(fact.factBase.category)
+//
+//                FactCardItem(
+//                    fact = fact,
+//                    icon = factIconList[localIndex],
+//                    color = factColorList[localIndex],
+//                    onClickAction = {
+//
+//                    }
+//                )
+//            }
+//        }
     }
 }
