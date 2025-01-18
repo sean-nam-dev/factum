@@ -3,7 +3,6 @@ package com.devflow.factum.presentation.screen.home
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.devflow.factum.presentation.screen.home.HomeViewModel
 
 @Composable
 fun HomeUIScreen(

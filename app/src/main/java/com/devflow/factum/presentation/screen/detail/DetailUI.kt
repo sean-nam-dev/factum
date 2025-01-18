@@ -11,7 +11,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,7 +26,6 @@ import com.devflow.factum.presentation.component.topbar.util.ProvideAppBarAction
 import com.devflow.factum.presentation.component.topbar.util.ProvideAppBarColor
 import com.devflow.factum.presentation.component.topbar.util.ProvideAppBarHeadline
 import com.devflow.factum.presentation.component.topbar.util.ProvideScrollBehavior
-import com.devflow.factum.presentation.screen.home.HomeUIAction
 import com.devflow.factum.util.Padding
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest

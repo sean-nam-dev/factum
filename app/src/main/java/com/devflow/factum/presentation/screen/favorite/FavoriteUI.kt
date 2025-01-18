@@ -12,7 +12,6 @@ import androidx.compose.ui.res.stringArrayResource
 import com.devflow.factum.R
 import com.devflow.factum.domain.model.Fact
 import com.devflow.factum.presentation.component.FactCardItem
-import com.devflow.factum.presentation.screen.favorite.FavoriteUIAction
 import com.devflow.factum.util.Padding
 import com.devflow.factum.util.Size
 import com.devflow.factum.util.VisualContent

@@ -3,7 +3,6 @@ package com.devflow.factum.presentation.screen.start
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.devflow.factum.presentation.screen.start.StartViewModel
 
 @Composable
 fun StartUIScreen(

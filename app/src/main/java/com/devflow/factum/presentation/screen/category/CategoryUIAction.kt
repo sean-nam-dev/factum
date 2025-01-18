@@ -5,8 +5,8 @@ import com.devflow.factum.domain.model.Fact
 import com.devflow.factum.domain.model.FactBase
 
 sealed class CategoryUIAction {
-    data class OnLoadFact(val action: Unit = Unit): CategoryUIAction()
-    data class OnFavoriteAction(val action: Unit = Unit): CategoryUIAction()
+    data object OnLoadFact: CategoryUIAction()
+    data object OnFavoriteAction: CategoryUIAction()
     data class OnFactClickAction(
         val index: Int,
         val localIndex: Int

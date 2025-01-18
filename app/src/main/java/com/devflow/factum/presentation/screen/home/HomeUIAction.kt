@@ -9,7 +9,7 @@ sealed class HomeUIAction {
         val index: Int,
         val localIndex: Int,
     ): HomeUIAction()
-    data class OnLoadFact(val action: Unit = Unit): HomeUIAction()
+    data object OnLoadFact: HomeUIAction()
     data class OnReportAction(
         val context: Context,
         val factBase: FactBase

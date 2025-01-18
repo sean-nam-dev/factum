@@ -37,6 +37,7 @@ import com.devflow.factum.ui.theme.FactumTheme
 import com.devflow.factum.util.Padding
 import com.devflow.factum.util.Size
 import com.devflow.factum.R
+import com.devflow.factum.util.timeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -95,7 +96,7 @@ fun TimeItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "${time.hour}:${time.minute}",
+                text = "${timeFormatter(time.hour)}:${timeFormatter(time.minute)}",
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.headlineSmall
             )

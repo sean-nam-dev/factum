@@ -1,35 +1,27 @@
 package com.devflow.factum.di
 
-import android.annotation.SuppressLint
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.speech.tts.TextToSpeech
-import android.util.Log
-import androidx.compose.ui.graphics.Color
-import androidx.hilt.work.WorkerAssistedFactory
 import androidx.room.Room
-import androidx.work.ListenableWorker
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.devflow.factum.R
 import com.devflow.factum.data.source.local.dao.FactDao
 import com.devflow.factum.data.source.local.dao.ReadFactDao
 import com.devflow.factum.data.source.local.database.FactDatabase
 import com.devflow.factum.data.source.local.database.ReadFactDatabase
-import com.devflow.factum.data.source.remote.NotificationWorker_AssistedFactory
 import com.devflow.factum.navigation.DefaultNavigator
 import com.devflow.factum.navigation.Destination
 import com.devflow.factum.navigation.Navigator
 import com.devflow.factum.util.ContextResourceManager
-import dagger.Binds
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dagger.multibindings.IntoMap
 import javax.inject.Singleton
 
 @Module

@@ -18,8 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
 import com.devflow.factum.R
 import com.devflow.factum.presentation.component.FactCardItem
-import com.devflow.factum.presentation.screen.home.HomeUIAction
-import com.devflow.factum.presentation.screen.home.HomeUIState
 import com.devflow.factum.util.Padding
 import com.devflow.factum.util.Size
 import com.devflow.factum.util.VisualContent
@@ -41,7 +39,7 @@ fun HomeUI(
         modifier = Modifier.fillMaxSize(),
         state = lazyGridState.also {
             it.scrollEndCallback {
-                onAction(HomeUIAction.OnLoadFact())
+                onAction(HomeUIAction.OnLoadFact)
             }
         },
         contentPadding = PaddingValues(Padding.Standard),

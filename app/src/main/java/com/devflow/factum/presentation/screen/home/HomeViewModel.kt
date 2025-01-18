@@ -53,7 +53,7 @@ class HomeViewModel @Inject constructor(
     private val deleteFactUseCase: DeleteFactUseCase,
     private val resourceManager: ContextResourceManager
 ): ViewModel() {
-    private val _state = MutableStateFlow(HomeUIState(Temp.getFactList()))
+    private val _state = MutableStateFlow(HomeUIState())
     val state = _state
         .onStart { loadFact() }
         .stateIn(

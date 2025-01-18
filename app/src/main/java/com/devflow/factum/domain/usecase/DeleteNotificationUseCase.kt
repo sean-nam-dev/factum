@@ -4,7 +4,6 @@ import android.app.Application
 import com.devflow.factum.R
 import com.devflow.factum.domain.model.Time
 import com.devflow.factum.domain.repository.SharedPrefRepository
-import com.devflow.factum.util.ResourceManager
 import javax.inject.Inject
 
 class DeleteNotificationUseCase @Inject constructor(

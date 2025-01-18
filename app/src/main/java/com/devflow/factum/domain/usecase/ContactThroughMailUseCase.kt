@@ -36,6 +36,6 @@ class ContactThroughMailUseCase @Inject constructor(
 
     companion object {
         const val URI_STRING = "mailto:"
-        const val GMAIL_ADDRESS = "shoxanamazov@gmail.com"
+        const val GMAIL_ADDRESS = "factum.devflow@gmail.com"
     }
 }

@@ -41,7 +41,7 @@ fun CategoryUI(
                 iconId = if (state.isFavorite) R.drawable.ic_round_like_24
                 else R.drawable.ic_outline_like_24,
                 color = MaterialTheme.colorScheme.primary,
-                action = { onAction(CategoryUIAction.OnFavoriteAction()) }
+                action = { onAction(CategoryUIAction.OnFavoriteAction) }
             )
         )
     )
@@ -51,7 +51,7 @@ fun CategoryUI(
         modifier = Modifier.fillMaxSize(),
         state = lazyGridState.also {
             it.scrollEndCallback {
-                onAction(CategoryUIAction.OnLoadFact())
+                onAction(CategoryUIAction.OnLoadFact)
             }
         },
         contentPadding = PaddingValues(Padding.Standard),

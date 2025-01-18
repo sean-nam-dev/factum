@@ -35,6 +35,7 @@ val Typography = Typography(
         fontSize = 20.sp,
         fontWeight = FontWeight.Normal,
         fontFamily = tinkoffSansFamily,
+        letterSpacing = 2.sp,
         lineHeight = 23.sp
     ),
     bodyMedium = TextStyle(

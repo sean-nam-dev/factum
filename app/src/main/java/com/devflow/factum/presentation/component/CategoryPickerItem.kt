@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
@@ -52,7 +51,6 @@ fun CategoryPickerItem(
             painter = painterResource(imageId),
             contentDescription = null,
             modifier = Modifier.size(Size.Image)
-                .clip(CircleShape)
         )
         Text(
             text = title,
@@ -85,7 +83,7 @@ private fun CategoryPickerItemPreview() {
         ) {
             item {
                 CategoryPickerItem(
-                    imageId = R.drawable.img_1_psycology,
+                    imageId = R.drawable.img_1_psychology,
                     title = "Психология",
                     isChecked = checkedState,
                     onCheckedChange = { onStateChange(!checkedState) }

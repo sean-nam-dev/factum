@@ -1,49 +1,20 @@
 package com.devflow.factum
 
-import android.Manifest
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.SystemBarStyle
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.consumeWindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
-import androidx.compose.material3.SwipeToDismissBox
-import androidx.compose.material3.SwipeToDismissBoxValue
-import androidx.compose.material3.Text
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ReportFragment.Companion.reportFragment
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -55,10 +26,8 @@ import com.devflow.factum.navigation.Destination
 import com.devflow.factum.navigation.NavigationAction
 import com.devflow.factum.navigation.Navigator
 import com.devflow.factum.presentation.component.navbar.BottomNavigationBar
-import com.devflow.factum.presentation.component.topbar.ContentAwareTopAppBar
-import com.devflow.factum.util.ObserveAsEvents
 import com.devflow.factum.presentation.component.snackbar.SnackbarController
-import com.devflow.factum.presentation.component.snackbar.SnackbarEvent
+import com.devflow.factum.presentation.component.topbar.ContentAwareTopAppBar
 import com.devflow.factum.presentation.screen.categories.CategoriesUIScreen
 import com.devflow.factum.presentation.screen.category.CategoryUIScreen
 import com.devflow.factum.presentation.screen.category.CategoryViewModel
@@ -73,15 +42,11 @@ import com.devflow.factum.presentation.screen.favorite_detail.FavoriteDetailUISc
 import com.devflow.factum.presentation.screen.home.HomeUIScreen
 import com.devflow.factum.presentation.screen.home.HomeViewModel
 import com.devflow.factum.presentation.screen.notification.NotificationUIScreen
-import com.devflow.factum.presentation.screen.settings.SettingsUIAction
 import com.devflow.factum.presentation.screen.settings.SettingsUIScreen
 import com.devflow.factum.presentation.screen.settings.SettingsViewModel
 import com.devflow.factum.presentation.screen.start.StartUIScreen
 import com.devflow.factum.ui.theme.FactumTheme
-import com.devflow.factum.util.Temp
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
+import com.devflow.factum.util.ObserveAsEvents
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -98,7 +63,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            FactumTheme { // JunkHomeTest()
+            FactumTheme {
                 val scope = rememberCoroutineScope()
 
                 val navController = rememberNavController()
@@ -163,9 +128,7 @@ class MainActivity : ComponentActivity() {
                     NavHost(
                         navController = navController,
                         startDestination = navigator.startDestination,
-                        modifier = Modifier
-                            .padding(innerPadding)
-//                            .consumeWindowInsets(innerPadding)
+                        modifier = Modifier.padding(innerPadding)
                     ) {
                         navigation<Destination.StartGraph>(
                             startDestination = Destination.StartScreen

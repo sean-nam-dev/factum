@@ -10,11 +10,11 @@ class RateAppUseCase @Inject constructor(
 ) {
     fun execute(context: Context) {
         val googlePlayIntent = Intent(Intent.ACTION_VIEW).apply {
-            data = Uri.parse(GOOGLE_PLAY_URI + TEMP)
+            data = Uri.parse(GOOGLE_PLAY_URI + APP_ID)
             setPackage(GOOGLE_PLAY_PACKAGE_NAME)
         }
         val webIntent = Intent(Intent.ACTION_VIEW).apply {
-            data = Uri.parse(GOOGLE_PLAY_WEB_URI + TEMP)
+            data = Uri.parse(GOOGLE_PLAY_WEB_URI + APP_ID)
         }
 
         try {
@@ -28,6 +28,6 @@ class RateAppUseCase @Inject constructor(
         private const val GOOGLE_PLAY_URI = "market://details?id="
         private const val GOOGLE_PLAY_WEB_URI = "https://play.google.com/store/apps/details?id="
         private const val GOOGLE_PLAY_PACKAGE_NAME = "com.android.vending"
-        private const val TEMP = "com.tencent.ig"
+        private const val APP_ID = "com.devflow.factum"
     }
 }

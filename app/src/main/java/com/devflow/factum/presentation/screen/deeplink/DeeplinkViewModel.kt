@@ -5,8 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devflow.factum.R
 import com.devflow.factum.domain.core.Result
-import com.devflow.factum.domain.model.Fact
-import com.devflow.factum.domain.model.FactBase
 import com.devflow.factum.domain.usecase.ContactThroughMailUseCase
 import com.devflow.factum.domain.usecase.DeleteFactUseCase
 import com.devflow.factum.domain.usecase.GetFactFromServerUseCase

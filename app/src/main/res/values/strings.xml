@@ -1,19 +1,16 @@
 <resources>
-    <string name="app_name" translatable="false">Factum</string>
+    <string name="app_name" translatable="false">Фактум</string>
 
     <string name="choose_favorite_categories">Выберите любимые категории…</string>
     <string name="ready">ГОТОВО</string>
     <string name="read">Читается за</string>
     <string name="minute">мин.</string>
-    <string name="connection_lost">Соединение потеряно. Показать сохраненные данные?</string>
-    <string name="show">Показать</string>
     <string name="home">Главная</string>
     <string name="categories">Категории</string>
     <string name="favorite">Избранное</string>
     <string name="settings">Настройки</string>
     <string name="no_app_to_send_email">Нет приложения для отправки электронного письма</string>
     <string name="choose_app_to_send_email">Выберите приложение для электронного письма</string>
-    <string name="report">Репорт</string>
     <string name="personalization">Персонализация</string>
     <string name="other">Другое</string>
     <string name="daily_facts">Ежедневные факты</string>
@@ -29,7 +26,7 @@
 
     <string-array name="categories">
         <item>Кино</item>
-        <item>Кпоп</item>
+        <item>К-поп</item>
         <item>Здоровье</item>
         <item>Психология</item>
         <item>Еда</item>

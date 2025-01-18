@@ -1,34 +1,9 @@
 package com.devflow.factum.util
 
-import com.devflow.factum.R
-import com.devflow.factum.domain.model.Category
 import com.devflow.factum.domain.model.Fact
 import com.devflow.factum.domain.model.FactBase
 
 object Temp {
-
-    fun getPath() = "factum"
-
-    fun getCategory() = Category(
-        imageId = R.drawable.img_1_nature,
-        title = "Природа",
-        isChecked = true
-    )
-
-    fun getCategoryList() = listOf(
-        getCategory(),
-        getCategory(),
-        getCategory(),
-        getCategory(),
-        getCategory(),
-        getCategory(),
-        getCategory(),
-        getCategory(),
-        getCategory(),
-        getCategory(),
-        getCategory()
-    )
-
     fun getFactList() = listOf(
         Fact(
             factBase = FactBase(documentId = "1", category = "movie"),
@@ -94,12 +69,5 @@ object Temp {
             text = "Некоторые деревья, такие как акации, общаются между собой с помощью химических сигналов. Когда животные начинают поедать их листья, деревья выделяют особые вещества в воздух — фитонциды. Они предупреждают другие деревья о надвигающейся опасности. Реагируя на сигнал, \"предупрежденные\" деревья начинают вырабатывать защитные соединения, делающие их листья горькими и даже токсичными для травоядных. Этот природный способ общения помогает растительным сообществам защищаться от угроз и лучше адаптироваться к внешним условиям.",
             readTime = 2
         ),
-    )
-
-    fun getFact() = Fact(
-        factBase = FactBase(documentId = "123", category = "nature"),
-        title = "Тайное общение деревьев",
-        text = "Некоторые деревья, такие как акации, выделяют специальные химические вещества, чтобы предупредить соседние деревья об опасности, например, приближающихся животных. Эти химические сигналы заставляют соседей выпускать вещества, которые делают их листья горькими и непригодными для еды.",
-        readTime = 3
     )
 }

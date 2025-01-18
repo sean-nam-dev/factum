@@ -25,6 +25,4 @@ object Size {
     val CircularProgressIndicator = 50.dp
 
     val IconSize = 30.dp
-
-    val TimeBoxWidth = 275.dp
 }

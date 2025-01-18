@@ -15,42 +15,42 @@ import com.devflow.factum.ui.theme.Teal
 object VisualContent {
 
     fun getImageList() = listOf(
-        R.drawable.img_1_celebrity,
+        R.drawable.img_1_movie,
         R.drawable.img_1_kpop,
         R.drawable.img_1_health,
-        R.drawable.img_1_psycology,
-        R.drawable.img_1_sport,
+        R.drawable.img_1_psychology,
+        R.drawable.img_1_food,
         R.drawable.img_1_space,
         R.drawable.img_1_science,
         R.drawable.img_1_history,
-        R.drawable.img_1_geography,
+        R.drawable.img_1_art,
         R.drawable.img_1_nature
     )
 
     fun getIcons() = listOf(
-        R.drawable.img_2_movie,
-        R.drawable.img_2_kpop,
-        R.drawable.img_2_health,
-        R.drawable.img_2_psycology,
-        R.drawable.img_2_food,
-        R.drawable.img_2_space,
-        R.drawable.img_2_science,
-        R.drawable.img_2_history,
-        R.drawable.img_2_art,
-        R.drawable.img_2_nature
+        R.drawable.img_1_movie,
+        R.drawable.img_1_kpop,
+        R.drawable.img_1_health,
+        R.drawable.img_1_psychology,
+        R.drawable.img_1_food,
+        R.drawable.img_1_space,
+        R.drawable.img_1_science,
+        R.drawable.img_1_history,
+        R.drawable.img_1_art,
+        R.drawable.img_1_nature
     )
 
     fun getCardColors() = listOf(
-        Taupe,
         Charcoal,
-        DarkGray,
         Purple,
         Teal,
+        DarkGray,
+        BurntOrange,
         SteelBlue,
+        Taupe,
         Brown,
-        BrickRed,
         Raspberry,
-        BurntOrange
+        BrickRed
     )
 
     fun getSettingsPersonalizationIconList() = listOf(

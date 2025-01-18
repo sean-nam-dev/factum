@@ -17,7 +17,6 @@ import dagger.Binds
 import dagger.MapKey
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.internal.lifecycle.HiltViewModelMap.KeySet
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoMap
 import javax.inject.Singleton

@@ -64,7 +64,7 @@ fun StartUI(
 
             OutlinedButton(
                 onClick = {
-                    onAction(StartUIAction.OnDoneClickAction())
+                    onAction(StartUIAction.OnDoneClickAction)
                 },
                 modifier = Modifier
                     .wrapContentSize()
