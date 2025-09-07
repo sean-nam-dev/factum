@@ -105,6 +105,7 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 }
+
                 Scaffold(
                     topBar = {
                         ContentAwareTopAppBar(

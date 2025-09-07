@@ -2,6 +2,7 @@ package com.devflow.factum.domain.model
 
 import androidx.room.Embedded
 import androidx.room.Entity
+import kotlin.math.ceil
 
 @Entity(primaryKeys = ["category", "documentId"])
 data class Fact(

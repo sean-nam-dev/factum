@@ -82,6 +82,7 @@ fun DetailUI(
         item {
             Text(
                 text = fact.title,
+                color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.headlineMedium
             )
         }

@@ -13,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.math.ceil
 
 class FirestoreRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore
@@ -35,7 +36,8 @@ class FirestoreRepositoryImpl @Inject constructor(
                         factBase = FactBase(
                             category = collectionName,
                             documentId = documentId
-                        )
+                        ),
+                        readTime = calculateReadTime(documentSnapshot.getString("text"))
                     ) ?: throw IllegalStateException()
 
                 Result.Success(fact)
@@ -104,5 +106,12 @@ class FirestoreRepositoryImpl @Inject constructor(
                 Result.Error(DataError.Network.INTERNAL_UNKNOWN)
             }
         }
+    }
+
+    private fun calculateReadTime(text: String?): Int {
+        val WORDS_PER_MINUTE  = 150
+
+        val wordCount = text?.split("\\s+".toRegex())?.size ?: 150
+        return ceil(wordCount / WORDS_PER_MINUTE.toDouble()).toInt()
     }
 }

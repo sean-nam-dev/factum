@@ -20,7 +20,7 @@ interface Navigator {
 class DefaultNavigator(
     override val startDestination: Destination
 ): Navigator {
-    private val _navigationAction = Channel<NavigationAction>()
+    private val _navigationAction = Channel<NavigationAction>(capacity = Channel.UNLIMITED)
     override val navigationActions = _navigationAction.receiveAsFlow()
 
     override suspend fun navigate(
